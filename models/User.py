@@ -44,14 +44,18 @@ class User(Db):
             print(f"User '{self.__name}' already exists in the database.")
             return
 
-        con=self._get_connection()
+        self.insert_user()
+        print("User successfully added to database!")
 
-        cursor=con.cursor()
-        cursor.execute("INSERT INTO user (name,age) VALUES (%s,%s)",(self.__name,self.__age))
+    def insert_user(self):
+        con = self._get_connection()
+
+        cursor = con.cursor()
+        cursor.execute("INSERT INTO user (name,age) VALUES (%s,%s)", (self.__name, self.__age))
         con.commit()
         cursor.close()
 
-        print("User successfully added to database!")
+
 
     def user_exists(self):
         con=self._get_connection()
