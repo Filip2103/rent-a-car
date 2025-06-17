@@ -106,8 +106,10 @@ class Car(Db):
         cursor.execute("SELECT * FROM car")
         results=cursor.fetchall()
 
+        for row in results:
+            print(row)
 
-        print(results)
+
 
     def show_rented_cars(self):
         con = self._get_connection()
