@@ -7,9 +7,10 @@ print("Options:"
       "\n2. Add car"
       "\n3. Rent a car"
       "\n4. Show all cars"
-      "\n5. Show rented cars")
+      "\n5. Show rented cars"
+      "\n6. Show earnings per car")
 
-available_option=[1,2,3,4,5]
+available_option=[1,2,3,4,5,6]
 
 option=None
 
@@ -31,6 +32,7 @@ while option is None:
         car=Car()
         car.brand=input("Enter brand:")
         car.model=input("Enter model:")
+        car.price=int(input("Enter price:"))
 
         car.create_car()
         option=None
@@ -53,4 +55,9 @@ while option is None:
     elif option == 5:
         car=Car()
         car.show_rented_cars()
+        option=None
+
+    elif option == 6:
+        car=Car()
+        car.show_earnings_per_car()
         option=None

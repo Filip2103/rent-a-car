@@ -26,10 +26,11 @@ class Rent(Db):
 
         cursor = con.cursor()
         cursor.execute(
-            "INSERT INTO rent(user_id, car_id, rented_until) VALUES (%s, %s, %s)",
-            (user_id, car_id, rented_until)
+            "INSERT INTO rent(user_id, car_id, rented_until,days) VALUES (%s, %s, %s, %s)",
+            (user_id, car_id, rented_until,days)
         )
         con.commit()
         cursor.close()
 
         print("Rent successfully added to database!")
+

@@ -23,6 +23,7 @@ class Car(Db):
         self.__brand=None
         self.__model=None
         self.__production_year=None
+        self.__price=None
 
     @property
     def brand(self):
@@ -72,6 +73,14 @@ class Car(Db):
 
         self.__production_year=production_year
 
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self,price):
+        self.__price=price
+
     def create_car(self):
 
         if self.__brand is None or self.__model is None or self.__production_year is None:
@@ -84,7 +93,7 @@ class Car(Db):
         con=self._get_connection()
 
         cursor=con.cursor()
-        cursor.execute("INSERT INTO car (brand,model,production_year) VALUES (%s,%s,%s)",(self.__brand,self.__model,self.__production_year))
+        cursor.execute("INSERT INTO car (brand,model,production_year,price) VALUES (%s,%s,%s,%s)",(self.__brand,self.__model,self.__production_year,self.__price))
         con.commit()
         cursor.close()
 
@@ -130,6 +139,42 @@ class Car(Db):
 
         cursor.execute(query)
         result = cursor.fetchall()
+
+        for row in result:
+            print(row)
+
+
+    def show_earnings_per_car(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+
+        query = """
+            SELECT c.brand,c.model,c.id, total_earnings.total_earnings,day_stats.day_of_week,day_stats.rental_counts
+            FROM car AS c
+            INNER JOIN (
+                SELECT r.car_id,SUM(r.days*c.price) AS `total_earnings`
+                FROM rent AS `r`
+                INNER JOIN car AS `c` ON r.car_id=c.id
+                GROUP BY r.car_id
+            ) AS `total_earnings` ON c.id=total_earnings.car_id
+            INNER JOIN (
+                SELECT r1.car_id,DAYNAME(r1.rented_at) AS `day_of_week`, COUNT(*) AS `rental_counts`
+                FROM rent AS `r1`
+                GROUP BY r1.car_id, DAYNAME(r1.rented_at)
+                HAVING COUNT(*)=(
+                    SELECT MAX(rent_count)
+                    FROM (
+                        SELECT COUNT(*) AS rent_count
+                        FROM rent AS `r2`
+                        WHERE r2.car_id=r1.car_id
+                        GROUP BY DAYNAME(r2.rented_at)
+                         ) AS `subquery`
+                    )
+            ) AS day_stats ON c.id=day_stats.car_id
+        """
+
+        cursor.execute(query)
+        result=cursor.fetchall()
 
         for row in result:
             print(row)
