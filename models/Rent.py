@@ -67,3 +67,35 @@ class Rent(Db):
 
         return random.randint(1, count)
 
+    def show_rents_per_year(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+        query= """
+            SELECT YEAR(rented_at) AS `godina`, MONTHNAME(rented_at) AS `mesec`, COUNT(*) AS `broj_rentiranja`
+            FROM rent
+            GROUP BY YEAR(rented_at), MONTH(rented_at)
+            ORDER BY YEAR(rented_at),MONTH(rented_at)
+
+        """
+        cursor.execute(query)
+        data=cursor.fetchall()
+        cursor.close()
+
+        return data
+
+    def show_rents_per_month(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+
+        query="""
+            SELECT MONTHNAME(rented_at) AS `mesec`, COUNT(*) AS `broj_rentiranja`
+            FROM rent
+            GROUP BY MONTH(rented_at)
+            ORDER BY MONTH(rented_at)
+        """
+
+        cursor.execute(query)
+        data=cursor.fetchall()
+        cursor.close()
+
+        return data

@@ -4,6 +4,8 @@ from models.Rent import Rent
 from scripts.generate_multiple_users import generate_multiple_users
 from scripts.generate_multiple_cars import generate_multiple_cars
 from scripts.generate_multiple_rents import generate_multiple_rents
+from scripts.visualize import visualize_rents_per_year,visualize_rents_per_month
+
 
 print("Options:"
       "\n1. Add user"
@@ -14,9 +16,11 @@ print("Options:"
       "\n6. Show earnings per car"
       "\n7. Insert random users"
       "\n8. Insert random cars"
-      "\n9. Insert random rents")
+      "\n9. Insert random rents"
+      "\n10. Show rents per year"
+      "\n11. Show rents per month")
 
-available_option=[1,2,3,4,5,6,7,8,9]
+available_option=[1,2,3,4,5,6,7,8,9,10,11]
 
 option=None
 
@@ -73,3 +77,7 @@ while option is None:
         generate_multiple_cars()
     elif option == 9:
         generate_multiple_rents()
+    elif option == 10:
+        visualize_rents_per_year()
+    elif option == 11:
+        visualize_rents_per_month()
