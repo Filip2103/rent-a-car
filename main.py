@@ -1,6 +1,9 @@
 from models.User import User
 from models.Car import Car
 from models.Rent import Rent
+from scripts.generate_multiple_users import generate_multiple_users
+from scripts.generate_multiple_cars import generate_multiple_cars
+from scripts.generate_multiple_rents import generate_multiple_rents
 
 print("Options:"
       "\n1. Add user"
@@ -8,9 +11,12 @@ print("Options:"
       "\n3. Rent a car"
       "\n4. Show all cars"
       "\n5. Show rented cars"
-      "\n6. Show earnings per car")
+      "\n6. Show earnings per car"
+      "\n7. Insert random users"
+      "\n8. Insert random cars"
+      "\n9. Insert random rents")
 
-available_option=[1,2,3,4,5,6]
+available_option=[1,2,3,4,5,6,7,8,9]
 
 option=None
 
@@ -61,3 +67,9 @@ while option is None:
         car=Car()
         car.show_earnings_per_car()
         option=None
+    elif option == 7:
+        generate_multiple_users()
+    elif option == 8:
+        generate_multiple_cars()
+    elif option == 9:
+        generate_multiple_rents()

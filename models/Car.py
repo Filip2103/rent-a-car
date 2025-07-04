@@ -1,6 +1,32 @@
 from models.Db import Db
+from faker import Faker
+import random
+faker=Faker()
+
 
 class Car(Db):
+    car_models = [
+        "Audi A4",
+        "BMW X5",
+        "Mercedes C200",
+        "Volkswagen Golf",
+        "Toyota Corolla",
+        "Honda Civic",
+        "Ford Focus",
+        "Škoda Octavia",
+        "Renault Clio",
+        "Peugeot 308",
+        "Opel Astra",
+        "Nissan Qashqai",
+        "Kia Ceed",
+        "Hyundai i30",
+        "Mazda CX-5",
+        "Tesla Model 3",
+        "Volvo XC90",
+        "Jaguar XE",
+        "Lexus RX",
+        "Alfa Romeo Giulia"
+    ]
 
     VALID_CARS = {
         "Audi": [
@@ -31,8 +57,8 @@ class Car(Db):
 
     @brand.setter
     def brand(self,brand):
-        if brand not in Car.VALID_CARS:
-            raise ValueError("Invalid brand!")
+        # if brand not in Car.VALID_CARS:
+        #     raise ValueError("Invalid brand!")
 
         self.__brand=brand
 
@@ -45,17 +71,17 @@ class Car(Db):
         if self.__brand is None:
             raise ValueError("Brand must be set!")
 
-        valid_models=[]
-
-        for car in Car.VALID_CARS[self.__brand]:
-            valid_models.append(car['model'])
-
-        if model not in valid_models:
-            raise ValueError("Invalid model!")
-
-        for car_model in Car.VALID_CARS[self.__brand]:
-            if car_model['model'] == model:
-                self.__production_year = car_model['production_year']
+        # valid_models=[]
+        #
+        # for car in Car.VALID_CARS[self.__brand]:
+        #     valid_models.append(car['model'])
+        #
+        # if model not in valid_models:
+        #     raise ValueError("Invalid model!")
+        #
+        # for car_model in Car.VALID_CARS[self.__brand]:
+        #     if car_model['model'] == model:
+        #         self.__production_year = car_model['production_year']
 
         self.__model=model
 
@@ -103,7 +129,7 @@ class Car(Db):
         con=self._get_connection()
 
         cursor=con.cursor()
-        cursor.execute("SELECT COUNT(*) AS count FROM car WHERE brand=%s AND model=%s",(self.__brand,self.__model))
+        cursor.execute("SELECT COUNT(*) AS count FROM car WHERE brand=%s AND model=%s AND production_year=%s",(self.__brand,self.__model,self.__production_year))
         result=cursor.fetchone()
 
         return result['count']>0
@@ -178,3 +204,20 @@ class Car(Db):
 
         for row in result:
             print(row)
+
+    @staticmethod
+    def generate_production_year():
+        return random.randint(2000,2025)
+
+
+    @classmethod
+    def generate_brand(cls):
+        car_model=random.choice(cls.car_models)
+
+        brand,model=car_model.split(' ',1)
+
+        return brand,model
+
+    @staticmethod
+    def generate_price():
+        return random.randint(50,100)

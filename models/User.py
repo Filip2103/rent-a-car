@@ -1,7 +1,22 @@
-from models.Db import Db
+from tkinter.font import names
 
+from models.Db import Db
+from faker import Faker
+import random
+faker=Faker()
 
 class User(Db):
+
+    names = [
+        "Marko", "Nikola", "Ana", "Milica", "Luka",
+        "Teodora", "Stefan", "Ivana", "Jovana", "Uroš"
+    ]
+
+    surnames = [
+        "Jovanović", "Petrović", "Ilić", "Simić", "Nikolić",
+        "Milenković", "Stanković", "Kovačević", "Popović", "Stojanović"
+    ]
+
 
     def __init__(self):
         super().__init__()
@@ -65,5 +80,14 @@ class User(Db):
         result=cursor.fetchone()
 
         return result['count']>0
+
+    @classmethod
+    def generate_user_name(cls):
+        full_name = f"{random.choice(cls.names)} {random.choice(cls.surnames)}"
+        return full_name
+
+    @staticmethod
+    def generate_age():
+        return random.randint(18,65)
 
 
