@@ -10,10 +10,7 @@ def visualize_rents_per_year():
 
     df=pd.DataFrame(data)
 
-    # Ako želiš imena meseci umesto brojeva:
 
-
-    # Crtaj grafikon
     plt.figure(figsize=(12, 6))
     sns.lineplot(data=df, x='mesec', y='broj_rentiranja', hue='godina', marker='o')
     plt.title("Rentiranja po mesecima i godinama")
@@ -22,6 +19,7 @@ def visualize_rents_per_year():
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
+
 
 def visualize_rents_per_month():
     rent=Rent()
