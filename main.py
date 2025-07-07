@@ -18,9 +18,10 @@ print("Options:"
       "\n8. Insert random cars"
       "\n9. Insert random rents"
       "\n10. Show rents per year"
-      "\n11. Show rents per month")
+      "\n11. Show rents per month"
+      "\n12. Show the best weekday in the best month")
 
-available_option=[1,2,3,4,5,6,7,8,9,10,11]
+available_option=[1,2,3,4,5,6,7,8,9,10,11,12]
 
 option=None
 
@@ -81,3 +82,6 @@ while option is None:
         visualize_rents_per_year()
     elif option == 11:
         visualize_rents_per_month()
+    elif option == 12:
+        rent=Rent()
+        print(rent.show_rents_per_day())

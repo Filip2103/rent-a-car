@@ -99,3 +99,45 @@ class Rent(Db):
         cursor.close()
 
         return data
+
+    def most_active_month(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+
+
+        query="""
+            SELECT MONTH(rented_at) AS `mesec`, COUNT(*) AS `broj_rentiranja`
+            FROM rent
+            GROUP BY MONTH(rented_at)
+            ORDER BY COUNT(*) DESC
+            LIMIT 1
+        """
+
+        cursor.execute(query)
+        data=cursor.fetchone()
+        cursor.close()
+
+        return data
+
+    def show_rents_per_day(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+
+        best_month=self.most_active_month()
+
+        query="""
+            SELECT
+                DAYNAME(rented_at) AS dan_u_nedelji,
+                COUNT(*) AS broj_rentiranja
+            FROM rent
+            WHERE MONTH(rented_at) = %s
+            GROUP BY DAYNAME(rented_at)
+            ORDER BY broj_rentiranja DESC
+            LIMIT 1;
+        """
+
+        cursor.execute(query,(best_month['mesec']))
+        data=cursor.fetchone()
+        cursor.close()
+
+        return data
