@@ -141,3 +141,19 @@ class Rent(Db):
         cursor.close()
 
         return data
+
+
+    def get_all_rented_dates(self):
+        con=self._get_connection()
+        cursor=con.cursor()
+
+        query="""
+            SELECT rented_at
+            FROM rent
+        """
+
+        cursor.execute(query)
+        result=cursor.fetchall()
+        cursor.close()
+
+        return result

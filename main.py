@@ -4,7 +4,7 @@ from models.Rent import Rent
 from scripts.generate_multiple_users import generate_multiple_users
 from scripts.generate_multiple_cars import generate_multiple_cars
 from scripts.generate_multiple_rents import generate_multiple_rents
-from scripts.visualize import visualize_rents_per_year,visualize_rents_per_month
+from scripts.visualize import visualize_rents_per_year,visualize_rents_per_month,visualize_rents_per_day
 
 
 print("Options:"
@@ -19,9 +19,11 @@ print("Options:"
       "\n9. Insert random rents"
       "\n10. Show rents per year"
       "\n11. Show rents per month"
-      "\n12. Show the best weekday in the best month")
+      "\n12. Show the best weekday in the best month (SQL)"
+      "\n13. Show the best weekday in the best month (DataFrame)"
+      )
 
-available_option=[1,2,3,4,5,6,7,8,9,10,11,12]
+available_option=[1,2,3,4,5,6,7,8,9,10,11,12,13]
 
 option=None
 
@@ -85,3 +87,5 @@ while option is None:
     elif option == 12:
         rent=Rent()
         print(rent.show_rents_per_day())
+    elif option == 13:
+        visualize_rents_per_day()
